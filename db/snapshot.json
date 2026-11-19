@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  },
+  "dialect": "postgresql",
+  "enums": {},
+  "policies": {},
+  "roles": {},
+  "schemas": {},
+  "sequences": {},
+  "tables": {},
+  "version": "7",
+  "views": {},
+  "id": "35555aa09bfc69b343d8d413cced5f19ebcfe0dee6a0641343b911c497caad35",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "schemaHash": "06e81615a04a87eeafd9bff900e7ad50fa4998213a9432eb5b1da7dc1606991a"
+}

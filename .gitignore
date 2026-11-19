@@ -1,41 +1,37 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# Dependencies
+node_modules/
 
-node_modules
-dist
-dist-ssr
+# App database — live data, never versioned (the drizzle/ migrations ARE)
+.data/
+
+# Build / server output
+dist/
+.output/
+.nitro/
+.tanstack/
+.vinxi/
+.wrangler/
+
+# Vite
+.vite/
 *.local
 
-# Env / secrets — the workspace .env is runtime-owned (header-only on this
-# stack, which holds no secrets) and must never be committed.
+# Environment
 .env
 .env.*
 !.env.example
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Logs
+*.log
 
-.vite
+# TypeScript
+*.tsbuildinfo
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Agent runtime
 .claude
 .resources
-
-*.tsbuildinfo
-.eslintcache
-
-# Single-file preview build
-dist-preview
-*preview.html

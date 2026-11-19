@@ -3,13 +3,14 @@
 # run.sh — set up and run the app with one command.
 #
 # Usage:
-#   ./run.sh          # install deps (if needed), ensure .env, start the dev server
-#   ./run.sh build    # install deps and build dist, then exit
-#   ./run.sh prod     # serve the existing dist with Bun; never install/build
+#   ./run.sh          # install deps (if needed), start the dev server
+#   ./run.sh build    # install deps and build the Node artifact, then exit
+#   ./run.sh prod     # execute the existing artifact; never install/build
 #
-# Uses bun (this project's package manager). The dev server loads .env into the
-# environment automatically, so your Incorta credentials there are picked up
-# without any extra step.
+# Uses bun (this project's package manager). The dev server loads the
+# workspace .env (platform-managed, mirroring the app's secrets) into the
+# environment automatically, so those values are picked up without any
+# extra step.
 
 set -euo pipefail
 
@@ -23,8 +24,12 @@ MODE="${1:-dev}"
 PORT="${PORT:-3000}"
 
 # --- require bun -------------------------------------------------------------
-if ! command -v bun >/dev/null 2>&1; then
+if [ "$MODE" != "prod" ] && ! command -v bun >/dev/null 2>&1; then
   echo "Error: 'bun' is not installed. Install it: https://bun.sh" >&2
+  exit 1
+fi
+if [ "$MODE" = "prod" ] && ! command -v node >/dev/null 2>&1; then
+  echo "Error: 'node' is required to run the production server." >&2
   exit 1
 fi
 
@@ -67,13 +72,14 @@ case "$MODE" in
     exec env NODE_ENV=development bun run dev -- --port "${PORT}" --host --strictPort
     ;;
   build)
-    echo "==> Building for production (bun run build)..."
-    bun run build
-    echo "==> Production build is ready in dist/."
+    echo "==> Building the production Node server..."
+    NITRO_PRESET=node-server bun run build
+    echo "==> Production server artifact is ready in dist/."
     ;;
   prod)
-    echo "==> Serving the production build with Bun on port ${PORT}..."
-    exec env PORT="${PORT}" bun scripts/serve-dist.ts
+    echo "==> Starting the bundled production server on port ${PORT}..."
+    exec env NODE_ENV=production PORT="${PORT}" HOST=0.0.0.0 \
+      NITRO_PORT="${PORT}" NITRO_HOST=0.0.0.0 node dist/server/index.mjs
     ;;
   *)
     echo "Error: unknown mode '$MODE'. Use 'dev' (default), 'build', or 'prod'." >&2

@@ -1,5 +1,5 @@
 import App, { type AppProps } from './App'
-import './index.css'
+import './styles.css'
 
 /**
  * Drop-in for the close platform:

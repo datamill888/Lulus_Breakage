@@ -1,0 +1,7 @@
+/*
+ * The design system — Tailwind, the Roboto font, Incorta's tokens and base
+ * styles — comes from @incorta/ui. Customize it in ./theme.css, not here.
+ */
+@import "@incorta/ui/globals.css";
+@import "tw-animate-css";
+@import "./theme.css";

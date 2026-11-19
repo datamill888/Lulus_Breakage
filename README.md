@@ -1,18 +1,20 @@
 # OSC Breakage (GL 4065 / 2231)
 
 Monthly online store credit breakage estimate, built to replace
-`YYYY-MM OSC Breakage Analysis - BREAKAGE RATES BY YEAR.xlsx`. Same stack and look as the Prepaid
-Inventory app (Vite, React 19, TypeScript, Tailwind v4, SheetJS), one tabbed section that can drop
-into the close app.
+`YYYY-MM OSC Breakage Analysis - BREAKAGE RATES BY YEAR.xlsx`. Same look as the Prepaid Inventory
+app, running as an Incorta appkit app (TanStack Start, React 19, Tailwind v4, SheetJS) on
+lulus-prod, app "Breakage" (`.appkit-target`).
 
 ```bash
-npm install
-npm run dev            # http://localhost:5173, loads the May 2026 workbook as sample data
-npm test               # engine + workflow tests; May 2026 ties to the workbook (163,090)
-npm run build:preview  # single-file dist-preview/index.html for sharing
+./run.sh               # bun install + dev server on :3000 (Incorta sign-in only works on the platform)
+bun run test           # engine + workflow tests; May 2026 ties to the workbook (163,090)
+bun run typecheck && bun run build
 ```
 
-Embedded: `<BreakageSection period="2026-05" user={session.user.name} />` (preview with `?embedded`).
+The platform's files (`src/server.ts`, `src/server/auth.ts`, `run.sh`, `vite.config.ts`'s Start and
+Nitro blocks) come from the appkit template and must not change. The app itself is `src/App.tsx`,
+mounted client-side from `src/routes/index.tsx`; the signed-in Incorta user is the name used for
+sign-offs and the activity log. Embedded elsewhere: `<BreakageSection period="2026-05" user={name} />`.
 
 ## How the calculation works
 
